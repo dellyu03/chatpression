@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>채팅 - ChatPression</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <!-- 채팅 헤더 -->
+        <div class="chat-header">
+            <div class="chat-info">
+                <div class="bot-avatar">🤖</div>
+                <div>
+                    <h2>AI 챗봇</h2>
+                    <p style="font-size: 0.9rem; opacity: 0.9;">대화 성격 분석 중...</p>
+                </div>
+            </div>
+            <button id="endChatBtn" class="btn-secondary" style="padding: 12px 30px; font-size: 1rem;">분석 결과 보기</button>
+        </div>
+
+        <!-- 메시지 영역 -->
+        <div class="chat-messages" id="chatMessages">
+            <!-- 초기 메시지 -->
+            <div class="message bot">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    안녕하세요! ChatPression에 오신 것을 환영합니다. 😊<br>
+                    저는 여러분의 대화 스타일을 파악하기 위한 AI 챗봇이에요.<br>
+                    편하게 자유롭게 대화해주세요!
+                </div>
+            </div>
+
+            <div class="message bot">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    오늘 하루는 어떠셨나요? 최근에 재미있었던 일이 있으시면 들려주세요!
+                </div>
+            </div>
+        </div>
+
+        <!-- 입력 영역 -->
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <input
+                    type="text"
+                    class="chat-input"
+                    id="messageInput"
+                    placeholder="메시지를 입력하세요..."
+                    autocomplete="off"
+                >
+                <button class="send-button" id="sendBtn">
+                    ➤
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../JS/chat.js"></script>
+</body>
+</html>
