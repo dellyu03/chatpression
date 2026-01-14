@@ -75,6 +75,10 @@ app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "HTML", "login.html"));
 });
 
+app.get("/onboarding", (req, res) => {
+  res.sendFile(path.join(__dirname, "HTML", "onboarding.html"));
+});
+
 app.get("/chat", (req, res) => {
   res.sendFile(path.join(__dirname, "HTML", "chat.html"));
 });

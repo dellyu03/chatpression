@@ -38,45 +38,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 게스트 로그인 (백엔드에서 처리)
+    // 게스트로 시작 (온보딩으로 이동)
     if (guestLoginBtn) {
-        guestLoginBtn.addEventListener('click', async () => {
-            try {
-                // 로딩 상태 표시
-                guestLoginBtn.disabled = true;
-                guestLoginBtn.textContent = '로그인 중...';
+        guestLoginBtn.addEventListener('click', () => {
+            // 게스트 플래그 설정
+            localStorage.setItem('isGuest', 'true');
+            localStorage.setItem('onboardingCompleted', 'false');
 
-                // 백엔드에서 게스트 JWT 발급 요청
-                const response = await fetch(`${API_URL}/auth/guest`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
+            console.log('✅ 게스트 모드 시작 - 온보딩으로 이동');
 
-                if (!response.ok) {
-                    throw new Error('게스트 로그인 실패');
-                }
-
-                const data = await response.json();
-
-                // JWT 토큰을 로컬 스토리지에 저장
-                localStorage.setItem('authToken', data.access_token);
-                localStorage.setItem('isGuest', 'true');
-
-                console.log('✅ 게스트 로그인 완료');
-
-                // 채팅 페이지로 이동
-                window.location.href = '/chat';
-
-            } catch (error) {
-                console.error('❌ 게스트 로그인 오류:', error);
-                alert('게스트 로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
-
-                // 버튼 상태 복구
-                guestLoginBtn.disabled = false;
-                guestLoginBtn.textContent = '게스트로 시작하기';
-            }
+            // 온보딩 페이지로 이동
+            window.location.href = '/onboarding';
         });
     }
 

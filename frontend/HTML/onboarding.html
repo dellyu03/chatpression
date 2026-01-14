@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시작하기 - ChatPression</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+    <div class="onboarding-container">
+        <div class="onboarding-box">
+            <div class="logo">💬</div>
+            <h2>시작하기 전에</h2>
+            <p class="onboarding-subtitle">더 나은 대화 분석을 위해 몇 가지 정보를 알려주세요</p>
+
+            <!-- 진행 단계 표시 -->
+            <div class="progress-indicator">
+                <div class="progress-step active" data-step="1">1</div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="2">2</div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="3">3</div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="4">4</div>
+            </div>
+
+            <!-- 온보딩 폼 -->
+            <form id="onboardingForm">
+                <!-- Step 1: 이름 -->
+                <div class="onboarding-step active" data-step="1">
+                    <div class="step-icon">👤</div>
+                    <h3>이름을 알려주세요</h3>
+                    <p class="step-description">대화에서 불러드릴 이름이에요</p>
+                    <input
+                        type="text"
+                        id="userName"
+                        class="onboarding-input"
+                        placeholder="예: 홍길동"
+                        required
+                        autocomplete="off"
+                    >
+                    <div class="error-message" id="nameError"></div>
+                </div>
+
+                <!-- Step 2: 나이 -->
+                <div class="onboarding-step" data-step="2">
+                    <div class="step-icon">🎂</div>
+                    <h3>나이를 알려주세요</h3>
+                    <p class="step-description">연령대별 대화 특성을 분석해요</p>
+                    <input
+                        type="number"
+                        id="userAge"
+                        class="onboarding-input"
+                        placeholder="예: 25"
+                        min="10"
+                        max="100"
+                        required
+                        autocomplete="off"
+                    >
+                    <div class="error-message" id="ageError"></div>
+                </div>
+
+                <!-- Step 3: 성별 -->
+                <div class="onboarding-step" data-step="3">
+                    <div class="step-icon">⚧</div>
+                    <h3>성별을 선택해주세요</h3>
+                    <p class="step-description">비슷한 친구를 만들어드려요</p>
+                    <div class="gender-options">
+                        <button type="button" class="gender-btn" data-gender="male">
+                            <span class="gender-icon">👨</span>
+                            <span>남성</span>
+                        </button>
+                        <button type="button" class="gender-btn" data-gender="female">
+                            <span class="gender-icon">👩</span>
+                            <span>여성</span>
+                        </button>
+                    </div>
+                    <input type="hidden" id="userGender" required>
+                    <div class="error-message" id="genderError"></div>
+                </div>
+
+                <!-- Step 4: 직업 -->
+                <div class="onboarding-step" data-step="4">
+                    <div class="step-icon">💼</div>
+                    <h3>직업을 알려주세요</h3>
+                    <p class="step-description">비슷한 상황의 친구와 대화해요</p>
+                    <select id="userOccupation" class="onboarding-select" required>
+                        <option value="">직업을 선택해주세요</option>
+                        <option value="student">학생</option>
+                        <option value="employee">직장인</option>
+                        <option value="freelancer">프리랜서</option>
+                        <option value="entrepreneur">창업자/사업가</option>
+                        <option value="professional">전문직 (의사, 변호사 등)</option>
+                        <option value="artist">예술가/창작자</option>
+                        <option value="homemaker">주부/주부</option>
+                        <option value="retired">은퇴</option>
+                        <option value="job-seeker">구직 중</option>
+                        <option value="other">기타 (직접 입력)</option>
+                    </select>
+
+                    <!-- 기타 직업 입력 필드 (처음에는 숨김) -->
+                    <div id="otherOccupationWrapper" style="display: none; margin-top: 15px;">
+                        <input
+                            type="text"
+                            id="otherOccupation"
+                            class="onboarding-input"
+                            placeholder="직업을 입력해주세요 (예: 간호사, 요리사)"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <div class="error-message" id="occupationError"></div>
+                </div>
+
+                <!-- 버튼 영역 -->
+                <div class="onboarding-buttons">
+                    <button type="button" id="prevBtn" class="btn-secondary" style="display: none;">
+                        이전
+                    </button>
+                    <button type="button" id="nextBtn" class="btn-primary">
+                        다음
+                    </button>
+                    <button type="submit" id="submitBtn" class="btn-primary" style="display: none;">
+                        시작하기
+                    </button>
+                </div>
+            </form>
+
+            <!-- 건너뛰기 옵션 -->
+            <div style="margin-top: 20px; text-align: center;">
+                <a href="#" id="skipOnboarding" style="color: #999; font-size: 0.9rem; text-decoration: none;">
+                    건너뛰고 바로 시작하기 →
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="../JS/onboarding.js"></script>
+</body>
+</html>

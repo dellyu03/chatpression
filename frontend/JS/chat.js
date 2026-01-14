@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // 온보딩 정보로 환영 메시지 개인화
+    personalizeWelcomeMessage();
+
     // 세션 ID 생성 또는 복원
     sessionId = localStorage.getItem('sessionId') || generateSessionId();
     localStorage.setItem('sessionId', sessionId);
@@ -45,17 +48,108 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 인증 확인
 function checkAuth() {
+    const isGuest = localStorage.getItem('isGuest') === 'true';
     const token = localStorage.getItem('authToken');
-    if (!token) {
-        // 토큰이 없으면 로그인 페이지로 리다이렉트
+
+    // 게스트가 아닌데 토큰이 없으면 로그인 페이지로
+    if (!isGuest && !token) {
         alert('로그인이 필요합니다.');
         window.location.href = '/login';
+    }
+
+    // 게스트인데 온보딩을 완료하지 않았으면 온보딩으로
+    if (isGuest) {
+        const onboardingCompleted = localStorage.getItem('onboardingCompleted');
+        if (onboardingCompleted !== 'true') {
+            window.location.href = '/onboarding';
+        }
     }
 }
 
 // 세션 ID 생성
 function generateSessionId() {
     return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
+// 온보딩 정보로 환영 메시지 개인화
+function personalizeWelcomeMessage() {
+    const userInfoStr = localStorage.getItem('userInfo');
+    if (!userInfoStr) return; // 온보딩 정보 없으면 기본 메시지 유지
+
+    try {
+        const userInfo = JSON.parse(userInfoStr);
+        const name = userInfo.name || '게스트';
+        const age = userInfo.age;
+        const occupation = userInfo.occupation;
+
+        // 기존 환영 메시지 찾기
+        const welcomeMessages = document.querySelectorAll('.message.bot .message-content');
+
+        if (welcomeMessages.length >= 2) {
+            // 첫 번째 메시지 - 처음 만나는 친구처럼
+            welcomeMessages[0].innerHTML = `
+                안녕! 나는 ${age ? `${age}살` : ''}이고, 요즘 ${getOccupationDescription(occupation, userInfo.occupationCategory)}하고 있어. 😊<br>
+                너는 ${name}라고 하는구나! 반가워!<br>
+                우리 편하게 이야기하자~
+            `;
+
+            // 두 번째 메시지 - 자연스러운 대화 시작
+            const secondMessage = getFirstQuestion(userInfo);
+            welcomeMessages[1].textContent = secondMessage;
+        }
+
+        console.log('✅ 환영 메시지 개인화 완료:', name);
+    } catch (error) {
+        console.error('환영 메시지 개인화 오류:', error);
+        // 에러가 있어도 기본 메시지로 진행
+    }
+}
+
+// 직업 설명 텍스트 생성
+function getOccupationDescription(occupation, category) {
+    const descriptions = {
+        'student': '학교 다니',
+        'employee': '직장 다니',
+        'freelancer': '프리랜서로 일',
+        'entrepreneur': '사업',
+        'professional': '전문직으로 일',
+        'artist': '창작 활동',
+        'homemaker': '집안일',
+        'retired': '여유롭게 지내',
+        'job-seeker': '취업 준비'
+    };
+
+    // 기타 직업이면 직접 입력한 값 사용
+    if (category === 'other') {
+        return occupation; // 예: "간호사로 일"
+    }
+
+    return descriptions[occupation] || '생활';
+}
+
+// 첫 질문 생성 (직업/나이에 따라)
+function getFirstQuestion(userInfo) {
+    const { age, occupation, occupationCategory } = userInfo;
+
+    // 직업별 질문
+    const occupationQuestions = {
+        'student': '요즘 학교 생활은 어때? 전공이나 관심 있는 분야가 있어?',
+        'employee': '요즘 회사 생활은 어때? 어떤 일 하고 있어?',
+        'freelancer': '프리랜서 생활은 어때? 요즘 어떤 프로젝트 하고 있어?',
+        'entrepreneur': '사업은 어떻게 돌아가고 있어? 힘든 건 없어?',
+        'professional': '일은 어때? 바쁘게 지내고 있어?',
+        'artist': '요즘 어떤 작업하고 있어? 영감은 잘 떠올라?',
+        'homemaker': '요즘 어떻게 지내? 바쁘게 보내고 있어?',
+        'retired': '요즘 어떻게 보내고 있어? 취미 같은 거 있어?',
+        'job-seeker': '취업 준비는 어떻게 되어가고 있어? 힘내!'
+    };
+
+    // 기타 직업
+    if (occupationCategory === 'other') {
+        return `${occupation}은/는 어때? 요즘 어떻게 지내고 있어?`;
+    }
+
+    return occupationQuestions[occupation] || '요즘 어떻게 지내? 최근에 재밌었던 일 있어?';
 }
 
 // 메시지 전송

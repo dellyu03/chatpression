@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startBtn) {
         startBtn.addEventListener('click', () => {
-            // 로그인 페이지로 이동 (서버 라우트 사용)
+            // 로그인 페이지로 이동
             window.location.href = '/login';
         });
     }

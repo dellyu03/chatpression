@@ -809,3 +809,316 @@ footer {
 .chat-messages::-webkit-scrollbar-thumb:hover {
     background: var(--primary-color);
 }
+
+/* ========== 온보딩 페이지 스타일 ========== */
+
+.onboarding-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.onboarding-box {
+    background: var(--white);
+    padding: 50px 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-hover);
+    text-align: center;
+    max-width: 550px;
+    width: 100%;
+}
+
+.onboarding-box h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.onboarding-subtitle {
+    color: var(--text-light);
+    font-size: 1.05rem;
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+/* 진행 단계 표시 */
+.progress-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    gap: 0;
+}
+
+.progress-step {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #E0E0E0;
+    color: #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.progress-step.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+    transform: scale(1.1);
+    box-shadow: var(--shadow);
+}
+
+.progress-line {
+    width: 50px;
+    height: 3px;
+    background: #E0E0E0;
+    transition: all 0.3s ease;
+}
+
+/* 온보딩 단계 */
+.onboarding-step {
+    display: none;
+    animation: slideIn 0.4s ease;
+}
+
+.onboarding-step.active {
+    display: block;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.step-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.onboarding-step h3 {
+    font-size: 1.8rem;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.step-description {
+    color: var(--text-light);
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+
+/* 온보딩 입력 */
+.onboarding-input,
+.onboarding-select {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid var(--accent-color);
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.onboarding-input:focus,
+.onboarding-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.onboarding-select {
+    cursor: pointer;
+    background: var(--white);
+}
+
+/* 성별 선택 버튼 */
+.gender-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gender-btn {
+    background: var(--white);
+    border: 2px solid var(--accent-color);
+    padding: 20px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.gender-btn:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.gender-btn.selected {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow);
+}
+
+.gender-icon {
+    font-size: 2.5rem;
+}
+
+/* 에러 메시지 */
+.error-message {
+    color: #EF4444;
+    font-size: 0.9rem;
+    margin-top: 8px;
+    min-height: 20px;
+    text-align: center;
+}
+
+/* 온보딩 버튼 */
+.onboarding-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.onboarding-buttons .btn-primary,
+.onboarding-buttons .btn-secondary {
+    min-width: 120px;
+}
+
+/* 반응형 - 모바일 */
+@media (max-width: 768px) {
+    .onboarding-box {
+        padding: 40px 30px;
+    }
+
+    .onboarding-box h2 {
+        font-size: 2rem;
+    }
+
+    .onboarding-subtitle {
+        font-size: 1rem;
+    }
+
+    .progress-step {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+
+    .progress-line {
+        width: 30px;
+    }
+
+    .step-icon {
+        font-size: 3rem;
+    }
+
+    .onboarding-step h3 {
+        font-size: 1.5rem;
+    }
+
+    .gender-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .onboarding-container {
+        padding: 15px;
+    }
+
+    .onboarding-box {
+        padding: 30px 20px;
+        border-radius: 15px;
+    }
+
+    .onboarding-box h2 {
+        font-size: 1.8rem;
+    }
+
+    .onboarding-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 30px;
+    }
+
+    .progress-indicator {
+        margin-bottom: 30px;
+    }
+
+    .progress-step {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+
+    .progress-line {
+        width: 25px;
+    }
+
+    .step-icon {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+
+    .onboarding-step h3 {
+        font-size: 1.3rem;
+        margin-bottom: 8px;
+    }
+
+    .step-description {
+        font-size: 0.9rem;
+        margin-bottom: 25px;
+    }
+
+    .onboarding-input,
+    .onboarding-select {
+        padding: 12px 15px;
+        font-size: 1rem;
+    }
+
+    .gender-btn {
+        padding: 15px 10px;
+        font-size: 0.9rem;
+    }
+
+    .gender-icon {
+        font-size: 2rem;
+    }
+
+    .onboarding-buttons {
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    .onboarding-buttons .btn-primary,
+    .onboarding-buttons .btn-secondary {
+        width: 100%;
+        min-width: auto;
+    }
+}
