@@ -1122,3 +1122,15 @@ footer {
         min-width: auto;
     }
 }
+
+/* 시스템 알림 메시지 */
+.system-notice {
+    text-align: center;
+    color: #888;
+    font-size: 0.85rem;
+    padding: 10px 15px;
+    margin: 10px 0;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 20px;
+    animation: fadeIn 0.3s ease;
+}

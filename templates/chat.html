@@ -11,10 +11,10 @@
         <!-- 채팅 헤더 -->
         <div class="chat-header">
             <div class="chat-info">
-                <div class="bot-avatar">🤖</div>
+                <div class="bot-avatar" id="botAvatar">💬</div>
                 <div>
-                    <h2>AI 챗봇</h2>
-                    <p style="font-size: 0.9rem; opacity: 0.9;">대화 성격 분석 중...</p>
+                    <h2 id="botName">상대방</h2>
+                    <p id="botStatus" style="font-size: 0.9rem; opacity: 0.9;">접속 중...</p>
                 </div>
             </div>
             <button id="endChatBtn" class="btn-secondary" style="padding: 12px 30px; font-size: 1rem;">분석 결과 보기</button>
@@ -22,21 +22,7 @@
 
         <!-- 메시지 영역 -->
         <div class="chat-messages" id="chatMessages">
-            <!-- 초기 메시지 (JavaScript로 개인화됨) -->
-            <div class="message bot">
-                <div class="message-avatar">🤖</div>
-                <div class="message-content">
-                    안녕! 반가워! 😊<br>
-                    우리 편하게 이야기하자~
-                </div>
-            </div>
-
-            <div class="message bot">
-                <div class="message-avatar">🤖</div>
-                <div class="message-content">
-                    요즘 어떻게 지내? 최근에 재밌었던 일 있어?
-                </div>
-            </div>
+            <!-- 메시지는 JavaScript로 동적 생성됩니다 -->
         </div>
 
         <!-- 입력 영역 -->
@@ -56,6 +42,6 @@
         </div>
     </div>
 
-    <script src="../JS/chat.js"></script>
+    <script src="/static/JS/chat.js"></script>
 </body>
 </html>

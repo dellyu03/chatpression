@@ -1,14 +1,16 @@
-// 온보딩 단계 관리
 let currentStep = 1;
 const totalSteps = 4;
 
-// DOM 요소 가져오기
 const nextBtn = document.getElementById('nextBtn');
 const prevBtn = document.getElementById('prevBtn');
 const submitBtn = document.getElementById('submitBtn');
 const form = document.getElementById('onboardingForm');
 
-// 각 단계별 유효성 검사 함수
+/**
+ * 온보딩 단계별로 유효성 검사를 진행하는 함수
+ * @param {number} step 
+ * @returns 
+ */
 function validateStep(step) {
     const errorMessages = {
         1: document.getElementById('nameError'),
@@ -77,7 +79,10 @@ function validateStep(step) {
     }
 }
 
-// 단계 이동 함수
+/**
+ * 온보딩 단계를 다음단계로 옮겨주는 함수
+ * @param {number} step 
+ */
 function goToStep(step) {
     // 현재 단계 숨기기
     const currentStepElement = document.querySelector(`.onboarding-step[data-step="${currentStep}"]`);
