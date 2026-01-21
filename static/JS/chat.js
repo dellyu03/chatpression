@@ -6,7 +6,7 @@ let conversationCount = 0; // 대화 횟수 (사용자+AI = 1회)
 
 // 대화 제한 설정
 //TODO MIN_CONVERSATIONS 10으로 변경할 것
-const MIN_CONVERSATIONS = 10; // 최소 대화 수
+const MIN_CONVERSATIONS = 0; // 최소 대화 수
 const MAX_CONVERSATIONS = 15; // 최대 대화 수
 
 // DOM 요소
@@ -273,8 +273,18 @@ function scrollToBottom() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// 모바일 키보드 대응: viewport 높이 조정 방식
+// 모바일 키보드 대응
 function setupMobileKeyboardHandler() {
+    // iOS Safari 감지
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+    if (isIOS) {
+        // iOS: CSS의 interactive-widget과 position:fixed로 자동 처리됨
+        // 추가 JS 처리 불필요
+        return;
+    }
+
+    // Android 및 기타 브라우저: visualViewport 사용
     if (!window.visualViewport) return;
 
     const chatContainer = document.querySelector('.chat-container');
@@ -285,11 +295,9 @@ function setupMobileKeyboardHandler() {
         const keyboardHeight = initialHeight - currentHeight;
 
         if (keyboardHeight > 100) {
-            // 키보드가 올라온 상태: 컨테이너 높이를 viewport에 맞춤
             chatContainer.style.height = `${currentHeight}px`;
         } else {
-            // 키보드가 내려간 상태: 원래 높이로 복원
-            chatContainer.style.height = '100dvh';
+            chatContainer.style.height = '';
             initialHeight = window.innerHeight;
         }
     }

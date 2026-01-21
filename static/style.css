@@ -272,8 +272,15 @@ footer {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    height: 100dvh;
     max-width: 1200px;
     margin: 0 auto;
+    /* iOS Safari 키보드 대응 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .chat-header {
@@ -312,11 +319,15 @@ footer {
 .chat-messages {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 30px;
     background: var(--bg-color);
     display: flex;
     flex-direction: column;
     gap: 20px;
+    /* iOS 스크롤 최적화 */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 }
 
 .message {
@@ -379,8 +390,10 @@ footer {
 .chat-input-container {
     background: var(--white);
     padding: 25px 30px;
+    padding-bottom: max(25px, env(safe-area-inset-bottom));
     border-radius: 0 0 var(--border-radius) var(--border-radius);
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+    flex-shrink: 0;
 }
 
 .chat-input-wrapper {
@@ -613,32 +626,29 @@ footer {
         font-size: 1rem;
     }
 
-    /* 채팅 페이지 */
+    /* 채팅 페이지 - iOS Safari 키보드 대응 */
     .chat-container {
-        height: 100vh;
-        height: 100dvh; /* 동적 뷰포트 높이 (모바일 브라우저 주소창 고려) */
-    }
-
-    /* 모바일 키보드 대응: viewport 높이 조정 */
-    .chat-container {
-        transition: height 0.15s ease-out;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        max-width: 100%;
     }
 
     .chat-messages {
         scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .chat-input-container {
-        /* iOS safe area 대응 */
-        padding-bottom: max(15px, env(safe-area-inset-bottom));
+        padding-top: env(safe-area-inset-top, 15px);
     }
 
     .chat-header {
         padding: 12px 15px;
+        padding-top: max(12px, env(safe-area-inset-top));
         border-radius: 0;
         flex-wrap: wrap;
         gap: 10px;
+        flex-shrink: 0;
     }
 
     .chat-header h2 {
@@ -682,8 +692,10 @@ footer {
     }
 
     .chat-input-container {
-        padding: 15px;
+        padding: 12px 15px;
+        padding-bottom: max(12px, env(safe-area-inset-bottom));
         border-radius: 0;
+        flex-shrink: 0;
     }
 
     .chat-input-wrapper {
@@ -692,12 +704,12 @@ footer {
 
     .chat-input {
         padding: 12px 18px;
-        font-size: 0.95rem;
+        font-size: 16px; /* iOS 자동 확대 방지 */
     }
 
     .send-button {
-        width: 45px;
-        height: 45px;
+        width: 44px;
+        height: 44px;
         font-size: 1.2rem;
         flex-shrink: 0;
     }
