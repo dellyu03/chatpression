@@ -1134,3 +1134,20 @@ footer {
     border-radius: 20px;
     animation: fadeIn 0.3s ease;
 }
+
+/* 채팅 입력 비활성화 상태 */
+.chat-input:disabled {
+    background: #F3F4F6;
+    color: #9CA3AF;
+    cursor: not-allowed;
+}
+
+.send-button:disabled {
+    background: #D1D5DB;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.send-button:disabled:hover {
+    transform: none;
+}

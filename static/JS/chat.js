@@ -2,6 +2,12 @@
 let userData = null;
 let history = [];
 let isSending = false; // 전송 중 플래그
+let conversationCount = 0; // 대화 횟수 (사용자+AI = 1회)
+
+// 대화 제한 설정
+//TODO MIN_CONVERSATIONS 10으로 변경할 것
+const MIN_CONVERSATIONS = 0; // 최소 대화 수
+const MAX_CONVERSATIONS = 15; // 최대 대화 수
 
 // DOM 요소
 const chatMessages = document.getElementById('chatMessages');
@@ -62,6 +68,15 @@ document.addEventListener('DOMContentLoaded', function() {
             handleSend();
         }
     });
+
+    // 분석 결과 보기 버튼 이벤트
+    const endChatBtn = document.getElementById('endChatBtn');
+    if (endChatBtn) {
+        endChatBtn.addEventListener('click', handleEndChat);
+    }
+
+    // 대화 카운터 UI 업데이트
+    updateConversationCounter();
 });
 
 // 시스템 알림 표시
@@ -155,6 +170,10 @@ async function sendMessageStream(message) {
 
     showTypingIndicator();
 
+    // 최소 딜레이 시간 (인간적인 타이핑 느낌)
+    const minDelay = 3000;
+    const startTime = Date.now();
+
     try {
         const response = await fetch('/api/chat/stream', {
             method: 'POST',
@@ -167,6 +186,12 @@ async function sendMessageStream(message) {
                 bot_name: userData.botName
             })
         });
+
+        // 최소 딜레이 대기 (너무 빠른 응답 방지)
+        const elapsed = Date.now() - startTime;
+        if (elapsed < minDelay) {
+            await new Promise(resolve => setTimeout(resolve, minDelay - elapsed));
+        }
 
         removeTypingIndicator();
 
@@ -205,6 +230,19 @@ async function sendMessageStream(message) {
         // 히스토리에 추가
         history.push({ role: 'assistant', content: fullMessage });
 
+        // 대화 횟수 증가 (사용자 메시지 + AI 응답 = 1회)
+        conversationCount++;
+        updateConversationCounter();
+
+        // 최대 대화 수 도달 시 자동으로 분석 페이지 이동
+        if (conversationCount >= MAX_CONVERSATIONS) {
+            disableChatInput();
+            showSystemNotice('대화가 완료되었습니다. 분석 결과 페이지로 이동합니다.');
+            setTimeout(() => {
+                goToAnalyzePage();
+            }, 2000);
+        }
+
     } catch (error) {
         removeTypingIndicator();
         console.error('메시지 전송 오류:', error);
@@ -216,6 +254,11 @@ async function sendMessageStream(message) {
 
 // 메시지 전송 핸들러
 function handleSend() {
+    // 최대 대화 수 도달 시 전송 차단
+    if (conversationCount >= MAX_CONVERSATIONS) {
+        return;
+    }
+
     const message = messageInput.value.trim();
     if (!message) return;
 
@@ -232,4 +275,38 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+// 대화 카운터 UI 업데이트
+function updateConversationCounter() {
+    const botStatusEl = document.getElementById('botStatus');
+    if (botStatusEl && userData) {
+        const remaining = MAX_CONVERSATIONS - conversationCount;
+        botStatusEl.textContent = `대화 ${conversationCount}/${MAX_CONVERSATIONS}`;
+    }
+}
+
+// 분석 결과 보기 버튼 핸들러
+function handleEndChat() {
+    if (conversationCount < MIN_CONVERSATIONS) {
+        const needed = MIN_CONVERSATIONS - conversationCount;
+        showSystemNotice(`분석을 위해 ${needed}번 더 대화해 주세요. (최소 ${MIN_CONVERSATIONS}회 필요)`);
+        return;
+    }
+    goToAnalyzePage();
+}
+
+// 분석 페이지로 이동
+function goToAnalyzePage() {
+    // 대화 히스토리 저장 (나중에 분석에 사용)
+    sessionStorage.setItem('chatHistory', JSON.stringify(history));
+    sessionStorage.setItem('conversationCount', conversationCount);
+    window.location.href = '/analyze';
+}
+
+// 채팅 입력 비활성화
+function disableChatInput() {
+    messageInput.disabled = true;
+    sendBtn.disabled = true;
+    messageInput.placeholder = '대화가 종료되었습니다';
 }

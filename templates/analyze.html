@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>분석 결과 - ChatPression</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/analyze.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="analyze-container">
+        <!-- 헤더 -->
+        <div class="analyze-header">
+            <div class="header-content">
+                <div class="logo-small">💬</div>
+                <h1>대화 분석 결과</h1>
+                <p class="header-subtitle">당신의 대화 첫인상을 분석했어요</p>
+            </div>
+        </div>
+
+        <!-- 메인 컨텐츠 -->
+        <div class="analyze-content">
+            <!-- 성격 유형 카드 (공개) -->
+            <div class="result-card type-card">
+                <div class="type-badge" id="typeBadge">분석 중...</div>
+                <h2 class="type-title" id="typeTitle">첫인상 유형</h2>
+                <p class="type-description" id="typeDescription">
+                    대화를 분석하여 당신의 첫인상 유형을 파악하고 있습니다.
+                </p>
+            </div>
+
+            <!-- 오각형 그래프 (공개) -->
+            <div class="result-card chart-card">
+                <h3>대화 지표 분석</h3>
+                <p class="card-subtitle">5가지 핵심 지표로 본 당신의 대화 스타일</p>
+                <div class="chart-container">
+                    <canvas id="radarChart"></canvas>
+                </div>
+                <div class="chart-legend" id="chartLegend"></div>
+            </div>
+
+            <!-- 유형별 공통 특징 (공개) -->
+            <div class="result-card strengths-card">
+                <div class="card-header">
+                    <span class="card-icon">✨</span>
+                    <h3>이 유형의 장점</h3>
+                </div>
+                <ul class="trait-list" id="strengthsList"></ul>
+            </div>
+
+            <div class="result-card weaknesses-card">
+                <div class="card-header">
+                    <span class="card-icon">💭</span>
+                    <h3>이 유형의 개선할 점</h3>
+                </div>
+                <ul class="trait-list" id="weaknessesList"></ul>
+            </div>
+
+            <div class="result-card improvement-card">
+                <div class="card-header">
+                    <span class="card-icon">🚀</span>
+                    <h3>이 유형의 성장 방향</h3>
+                </div>
+                <div class="improvement-content" id="improvementContent"></div>
+            </div>
+
+            <!-- 광고 시청 유도 카드 -->
+            <div class="result-card ad-prompt-card" id="adPromptCard">
+                <div class="ad-prompt-content">
+                    <div class="ad-prompt-icon">🔍</div>
+                    <h3>나만의 대화 분석 결과 보기</h3>
+                    <p>광고를 시청하면 <strong>당신의 실제 대화를 분석한</strong> 개인 맞춤 피드백을 확인할 수 있어요!</p>
+                    <div class="ad-preview-list">
+                        <span>📊 나의 대화 패턴 분석</span>
+                        <span>💬 실제 사용한 표현 피드백</span>
+                        <span>🎯 개인 맞춤 개선 포인트</span>
+                    </div>
+                    <button class="btn-ad" id="watchAdBtn">
+                        <span class="ad-btn-icon">▶</span>
+                        광고 보고 내 분석 결과 확인하기
+                    </button>
+                    <p class="ad-note">약 15초 소요</p>
+                </div>
+            </div>
+
+            <!-- 나만의 대화 분석 (잠금) -->
+            <div class="locked-sections" id="lockedSections">
+                <!-- 개인 맞춤 분석 결과 -->
+                <div class="result-card personal-card locked-card">
+                    <div class="card-header">
+                        <span class="card-icon">🎯</span>
+                        <h3>나만의 대화 분석</h3>
+                        <span class="lock-icon">🔒</span>
+                    </div>
+                    <div class="locked-overlay">
+                        <div class="locked-content">
+                            <p>광고 시청 후 확인 가능</p>
+                        </div>
+                    </div>
+                    <div class="personal-analysis blurred" id="personalAnalysis"></div>
+                </div>
+
+                <!-- 상세 지표 분석 -->
+                <div class="result-card detail-card locked-card">
+                    <div class="card-header-simple">
+                        <h3>지표별 상세 분석</h3>
+                        <span class="lock-icon">🔒</span>
+                    </div>
+                    <div class="locked-overlay">
+                        <div class="locked-content">
+                            <p>광고 시청 후 확인 가능</p>
+                        </div>
+                    </div>
+                    <div class="detail-list blurred" id="detailList"></div>
+                </div>
+
+                <!-- 개인 맞춤 개선 포인트 -->
+                <div class="result-card personal-improvement-card locked-card">
+                    <div class="card-header">
+                        <span class="card-icon">📈</span>
+                        <h3>나를 위한 개선 포인트</h3>
+                        <span class="lock-icon">🔒</span>
+                    </div>
+                    <div class="locked-overlay">
+                        <div class="locked-content">
+                            <p>광고 시청 후 확인 가능</p>
+                        </div>
+                    </div>
+                    <div class="personal-tips blurred" id="personalTips"></div>
+                </div>
+            </div>
+
+            <!-- 버튼 영역 -->
+            <div class="action-buttons">
+                <button class="btn-secondary" onclick="location.href='/chat'">
+                    다시 대화하기
+                </button>
+                <button class="btn-primary" onclick="shareResult()">
+                    결과 공유하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 광고 모달 -->
+    <div class="ad-modal" id="adModal">
+        <div class="ad-modal-content">
+            <div class="ad-modal-header">
+                <span>광고</span>
+                <span class="ad-timer" id="adTimer">15</span>
+            </div>
+            <div class="ad-modal-body">
+                <div class="ad-placeholder">
+                    <div class="ad-demo-content">
+                        <div class="ad-demo-icon">📱</div>
+                        <h3>ChatPression</h3>
+                        <p>대화로 알아보는 나의 첫인상</p>
+                        <div class="ad-demo-features">
+                            <span>✓ AI 기반 분석</span>
+                            <span>✓ 16가지 유형</span>
+                            <span>✓ 맞춤 개선방향</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ad-modal-footer">
+                <div class="ad-progress">
+                    <div class="ad-progress-bar" id="adProgressBar"></div>
+                </div>
+                <button class="btn-skip" id="skipAdBtn" disabled>
+                    <span id="skipBtnText">15초 후 건너뛰기</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/JS/analyze.js"></script>
+</body>
+</html>

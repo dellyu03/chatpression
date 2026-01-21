@@ -1,0 +1,79 @@
+{
+  "indicators": {
+    "messageLength": {
+      "name": "평균 메시지 길이",
+      "shortName": "메시지 길이",
+      "icon": "📝",
+      "description": "한 번의 메시지에서 사용자가 평균적으로 작성하는 글자 수입니다. 장문 위주의 채팅인지, 핵심만 전달하는 단문형 채팅인지를 판단할 수 있습니다.",
+      "thresholds": {
+        "low": { "max": 30, "label": "단문형" },
+        "medium": { "min": 30, "max": 70, "label": "보통" },
+        "high": { "min": 70, "label": "장문형" }
+      },
+      "highTypes": ["INTP", "INTJ", "ENFP", "INFP", "ENTP"],
+      "lowTypes": ["ISTP", "ESTP", "ISTJ", "ESFP", "ISFP"]
+    },
+    "responseTime": {
+      "name": "응답 속도",
+      "shortName": "응답 속도",
+      "icon": "⏱️",
+      "description": "상대 메시지를 받은 뒤 첫 답장을 보내기까지 걸리는 시간입니다. 즉흥적인 반응인지, 숙고 후 응답하는지를 구분하는 데 사용됩니다.",
+      "thresholds": {
+        "fast": { "max": 5, "label": "즉답형" },
+        "medium": { "min": 5, "max": 15, "label": "보통" },
+        "slow": { "min": 15, "label": "숙고형" }
+      },
+      "fastTypes": ["ESTP", "ESFP", "ESFJ", "ENFJ", "ENTJ", "ENFP", "ENTP"],
+      "slowTypes": ["INTJ", "INFJ", "INFP", "INTP"]
+    },
+    "questionRatio": {
+      "name": "질문 비율",
+      "shortName": "질문 비율",
+      "icon": "❓",
+      "description": "전체 메시지 중 질문 형태(?, 의문문)가 차지하는 비율입니다. 대화를 이끄는 방식이 질문 중심인지, 전달 중심인지 판단합니다.",
+      "thresholds": {
+        "low": { "max": 15, "label": "전달형" },
+        "medium": { "min": 15, "max": 35, "label": "보통" },
+        "high": { "min": 35, "label": "탐색형" }
+      },
+      "highTypes": ["ENTP", "ENFJ", "INFJ"],
+      "lowTypes": ["ISTJ", "ESTJ", "ISTP", "ESTP", "ESFP", "ISFP"]
+    },
+    "emotionDensity": {
+      "name": "감정 표현 밀도",
+      "shortName": "감정 표현",
+      "icon": "💕",
+      "description": "이모지, 감탄사, 감정 단어 사용 빈도를 종합한 지표입니다. 채팅에서 감정과 리액션이 얼마나 드러나는지를 나타냅니다.",
+      "thresholds": {
+        "low": { "max": 20, "label": "절제형" },
+        "medium": { "min": 20, "max": 50, "label": "보통" },
+        "high": { "min": 50, "label": "감정풍부형" }
+      },
+      "highTypes": ["ESFP", "ESFJ", "INFP", "ENFP", "ENFJ"],
+      "lowTypes": ["INTP", "ISTJ", "INTJ", "ISTP", "ESTP", "ENTJ", "ENTP"]
+    },
+    "structureScore": {
+      "name": "메시지 구조화 지수",
+      "shortName": "구조화",
+      "icon": "📋",
+      "description": "메시지가 얼마나 정리된 형태로 작성되는지를 측정합니다. 번호, 줄바꿈, 요약 표현 등의 사용 빈도를 기반으로 계산합니다.",
+      "thresholds": {
+        "low": { "max": 20, "label": "자유형" },
+        "medium": { "min": 20, "max": 50, "label": "보통" },
+        "high": { "min": 50, "label": "체계형" }
+      },
+      "highTypes": ["ESTJ", "ENTJ", "INTJ", "ISTJ"],
+      "lowTypes": ["ENFP", "ISFP", "ESTP", "ESFP", "INFP", "ENTP", "ISTP"]
+    }
+  },
+  "emotionKeywords": {
+    "positive": ["좋아", "기쁘", "행복", "감사", "고마", "사랑", "최고", "대박", "멋지", "예쁘", "귀엽", "신나", "재밌", "즐거", "웃기"],
+    "negative": ["슬프", "힘들", "어려", "짜증", "화나", "싫", "무서", "걱정", "불안", "우울", "피곤", "지치"],
+    "exclamations": ["와", "우와", "오", "헐", "대박", "진짜", "정말", "완전", "너무", "엄청"]
+  },
+  "structurePatterns": {
+    "numbering": ["1.", "2.", "3.", "1)", "2)", "3)", "첫째", "둘째", "셋째", "먼저", "다음", "마지막"],
+    "bullets": ["-", "•", "·"],
+    "summary": ["요약", "정리", "결론", "즉", "따라서", "그래서"]
+  }
+}
