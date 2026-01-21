@@ -293,18 +293,9 @@ function setupMobileKeyboardHandler() {
             chatContainer.style.height = '100dvh';
             initialHeight = window.innerHeight;
         }
-
-        // 스크롤을 맨 아래로
-        scrollToBottom();
     }
 
     window.visualViewport.addEventListener('resize', adjustHeight);
-    window.visualViewport.addEventListener('scroll', adjustHeight);
-
-    // 입력창 포커스 시에도 처리
-    messageInput.addEventListener('focus', () => {
-        setTimeout(adjustHeight, 100);
-    });
 }
 
 function escapeHtml(text) {
