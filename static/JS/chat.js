@@ -133,7 +133,6 @@ function showUserMessage(message) {
         <div class="message-content">${escapeHtml(message)}</div>
     `;
     chatMessages.appendChild(messageDiv);
-    scrollToBottom();
 }
 
 // 타이핑 인디케이터 표시
