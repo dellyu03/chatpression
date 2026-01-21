@@ -26,11 +26,6 @@ async def onboarding(request: Request):
 async def chat(request: Request):
     return templates.TemplateResponse("chat.html", {"request": request})
 
-
-@app.get("/analyze", response_class=HTMLResponse)
-async def analyze(request: Request):
-    return templates.TemplateResponse("analyze.html", {"request": request})
-
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat_api(request: ChatRequest):
     try:

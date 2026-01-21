@@ -6,7 +6,7 @@ let conversationCount = 0; // 대화 횟수 (사용자+AI = 1회)
 
 // 대화 제한 설정
 //TODO MIN_CONVERSATIONS 10으로 변경할 것
-const MIN_CONVERSATIONS = 0; // 최소 대화 수
+const MIN_CONVERSATIONS = 10; // 최소 대화 수
 const MAX_CONVERSATIONS = 15; // 최대 대화 수
 
 // DOM 요소
