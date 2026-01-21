@@ -69,18 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // 모바일 키보드 대응: 입력창 포커스 시 스크롤 처리
-    messageInput.addEventListener('focus', function() {
-        // 키보드가 올라오는 시간을 고려하여 지연 후 스크롤
-        setTimeout(() => {
-            scrollToBottom();
-        }, 300);
-    });
-
-    // visualViewport API를 통한 키보드 높이 감지 (iOS/Android 대응)
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', handleViewportResize);
-    }
+    // 모바일 키보드 대응: visualViewport로 화면 크기 조정
+    setupMobileKeyboardHandler();
 
     // 분석 결과 보기 버튼 이벤트
     const endChatBtn = document.getElementById('endChatBtn');
@@ -284,16 +274,37 @@ function scrollToBottom() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// 모바일 키보드 표시/숨김 시 뷰포트 조정
-function handleViewportResize() {
-    // 키보드가 올라오면 스크롤을 맨 아래로 이동
-    if (document.activeElement === messageInput) {
-        setTimeout(() => {
-            scrollToBottom();
-            // 입력창이 보이도록 스크롤
-            messageInput.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        }, 100);
+// 모바일 키보드 대응: viewport 높이 조정 방식
+function setupMobileKeyboardHandler() {
+    if (!window.visualViewport) return;
+
+    const chatContainer = document.querySelector('.chat-container');
+    let initialHeight = window.innerHeight;
+
+    function adjustHeight() {
+        const currentHeight = window.visualViewport.height;
+        const keyboardHeight = initialHeight - currentHeight;
+
+        if (keyboardHeight > 100) {
+            // 키보드가 올라온 상태: 컨테이너 높이를 viewport에 맞춤
+            chatContainer.style.height = `${currentHeight}px`;
+        } else {
+            // 키보드가 내려간 상태: 원래 높이로 복원
+            chatContainer.style.height = '100dvh';
+            initialHeight = window.innerHeight;
+        }
+
+        // 스크롤을 맨 아래로
+        scrollToBottom();
     }
+
+    window.visualViewport.addEventListener('resize', adjustHeight);
+    window.visualViewport.addEventListener('scroll', adjustHeight);
+
+    // 입력창 포커스 시에도 처리
+    messageInput.addEventListener('focus', () => {
+        setTimeout(adjustHeight, 100);
+    });
 }
 
 function escapeHtml(text) {

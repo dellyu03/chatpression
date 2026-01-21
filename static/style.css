@@ -619,7 +619,11 @@ footer {
         height: 100dvh; /* 동적 뷰포트 높이 (모바일 브라우저 주소창 고려) */
     }
 
-    /* 모바일 키보드 대응 */
+    /* 모바일 키보드 대응: viewport 높이 조정 */
+    .chat-container {
+        transition: height 0.15s ease-out;
+    }
+
     .chat-messages {
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
