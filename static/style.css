@@ -619,6 +619,17 @@ footer {
         height: 100dvh; /* 동적 뷰포트 높이 (모바일 브라우저 주소창 고려) */
     }
 
+    /* 모바일 키보드 대응 */
+    .chat-messages {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .chat-input-container {
+        /* iOS safe area 대응 */
+        padding-bottom: max(15px, env(safe-area-inset-bottom));
+    }
+
     .chat-header {
         padding: 12px 15px;
         border-radius: 0;
@@ -1114,11 +1125,13 @@ footer {
     .onboarding-buttons {
         flex-direction: column-reverse;
         gap: 10px;
+        align-items: center;
     }
 
     .onboarding-buttons .btn-primary,
     .onboarding-buttons .btn-secondary {
         width: 100%;
+        max-width: 280px;
         min-width: auto;
     }
 }

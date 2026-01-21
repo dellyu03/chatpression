@@ -69,6 +69,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // 모바일 키보드 대응: 입력창 포커스 시 스크롤 처리
+    messageInput.addEventListener('focus', function() {
+        // 키보드가 올라오는 시간을 고려하여 지연 후 스크롤
+        setTimeout(() => {
+            scrollToBottom();
+        }, 300);
+    });
+
+    // visualViewport API를 통한 키보드 높이 감지 (iOS/Android 대응)
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', handleViewportResize);
+    }
+
     // 분석 결과 보기 버튼 이벤트
     const endChatBtn = document.getElementById('endChatBtn');
     if (endChatBtn) {
@@ -269,6 +282,18 @@ function handleSend() {
 // 유틸리티 함수
 function scrollToBottom() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// 모바일 키보드 표시/숨김 시 뷰포트 조정
+function handleViewportResize() {
+    // 키보드가 올라오면 스크롤을 맨 아래로 이동
+    if (document.activeElement === messageInput) {
+        setTimeout(() => {
+            scrollToBottom();
+            // 입력창이 보이도록 스크롤
+            messageInput.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }, 100);
+    }
 }
 
 function escapeHtml(text) {
